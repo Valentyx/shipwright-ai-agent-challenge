@@ -1,2 +1,2 @@
 # shipwright-agent
-Autonomous engineering operations agent that replaces scrum ceremonies
+Shipwright is an autonomous multi-agent system that replaces scrum ceremonies by continuously monitoring team activity, detecting dependency gaps, and keeping engineering teams aligned — without meetings.
