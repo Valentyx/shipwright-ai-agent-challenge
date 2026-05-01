@@ -4,6 +4,12 @@ Shipwright is an autonomous multi-agent system that replaces the Scrum Master co
 
 Repository: https://github.com/Valentyx/shipwright-ai-agent-challenge
 
+## Status
+
+This repository is an early competition scaffold. The current implementation uses synthetic demo data and a seeded MCP gateway so the core product behavior can be tested locally. Live Jira, Slack, GitHub, Vertex AI Search, and Cloud Run wiring are the next milestones.
+
+Shipwright is an independent hackathon project. It is not affiliated with or endorsed by Google, Atlassian/Jira, Slack, GitHub, or their parent companies.
+
 ## Competition Shape
 
 - Track: Google for Startups AI Agents Challenge, Track 1 Build
@@ -53,6 +59,14 @@ The production goal is to use reliable community MCP servers where they satisfy 
 ```bash
 python3 -m shipwright.mcp_server
 ```
+
+## Documentation
+
+- [Architecture](docs/ARCHITECTURE.md)
+- [Demo Guide](docs/DEMO.md)
+- [Roadmap](docs/ROADMAP.md)
+- [Domain Context](CONTEXT.md)
+- [Architecture Decisions](docs/adr/0001-mcp-integration-boundary.md)
 
 ## Guardrails
 
