@@ -9,12 +9,15 @@ from shipwright.contracts import (
     DependencyGapFinding,
     EvidencePacket,
     JiraIssue,
+    ProjectMemorySummary,
     StandupDigest,
     TeamOwnershipMap,
+    utc_now_iso,
 )
 from shipwright.mcp import McpGateway
-from shipwright.memory import ProjectMemory, summarize_completed_work
+from shipwright.memory import ProjectMemory
 from shipwright.observability import record_event
+from shipwright.reasoning import ReasoningProvider, ReasoningRequest, reasoning_provider_from_env
 
 
 @dataclass
@@ -148,17 +151,29 @@ class BacklogAgent:
 class MemoryAgent:
     memory: ProjectMemory
     mcp: McpGateway
+    reasoning: ReasoningProvider = field(default_factory=reasoning_provider_from_env)
 
     def create_nightly_summary(self, issue_key: str) -> str:
         issue = self.mcp.read_launch_ticket(issue_key)
-        summary = summarize_completed_work(
+        facts = (
+            f"{issue.key} is {issue.status}.",
+            f"Owner team is {issue.owner_team}.",
+            f"Known signoffs: {', '.join(issue.signoffs) if issue.signoffs else 'none yet'}.",
+        )
+        result = self.reasoning.summarize_project_memory(
+            ReasoningRequest(
+                task_name="project_memory.nightly_summary",
+                facts=facts,
+                source_ids=(issue.key,),
+                max_style="durable-summary",
+            )
+        )
+        summary = ProjectMemorySummary(
+            id=f"{issue.title.lower().replace(' ', '-')}-nightly-memory",
             title=f"{issue.title} nightly memory",
-            facts=[
-                f"{issue.key} is {issue.status}.",
-                f"Owner team is {issue.owner_team}.",
-                f"Known signoffs: {', '.join(issue.signoffs) if issue.signoffs else 'none yet'}.",
-            ],
-            sources=[issue.key],
+            body=result.text,
+            sources=(issue.key,),
+            updated_at=utc_now_iso(),
         )
         self.memory.index(summary)
         return summary.id

@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-MODEL = "gemini-2.5-flash"
+from shipwright.reasoning import configured_reasoning_model
 
 
 @dataclass(frozen=True)
@@ -18,7 +18,7 @@ class LocalAgentSpec:
 
 def _local_agent(name: str, description: str, instruction: str) -> LocalAgentSpec:
     return LocalAgentSpec(
-        model=MODEL,
+        model=configured_reasoning_model(),
         name=name,
         description=description,
         instruction=instruction,
@@ -28,6 +28,7 @@ def _local_agent(name: str, description: str, instruction: str) -> LocalAgentSpe
 def create_root_agent():
     """Create the Shipwright ADK root agent, with a test-friendly fallback."""
 
+    model = configured_reasoning_model()
     dependency_instruction = (
         "Detect Dependency Gaps: required external team involvement exists, "
         "but explicit ownership or signoff is absent. Use MCP-backed Jira, "
@@ -78,7 +79,7 @@ def create_root_agent():
             memory_instruction,
         )
         return LocalAgentSpec(
-            model=MODEL,
+            model=model,
             name="shipwright_coordinator",
             description="Coordinates Shipwright's specialist agents.",
             instruction=coordinator_instruction,
@@ -86,31 +87,31 @@ def create_root_agent():
         )
 
     dependency_agent = Agent(
-        model=MODEL,
+        model=model,
         name="dependency_agent",
         description="Detects missing cross-team owner/signoff dependency gaps.",
         instruction=dependency_instruction,
     )
     standup_agent = Agent(
-        model=MODEL,
+        model=model,
         name="standup_agent",
         description="Generates flow-based standup digests.",
         instruction=standup_instruction,
     )
     backlog_agent = Agent(
-        model=MODEL,
+        model=model,
         name="backlog_agent",
         description="Produces backlog grooming recommendations.",
         instruction=backlog_instruction,
     )
     memory_agent = Agent(
-        model=MODEL,
+        model=model,
         name="memory_agent",
         description="Maintains durable project memory summaries.",
         instruction=memory_instruction,
     )
     return Agent(
-        model=MODEL,
+        model=model,
         name="shipwright_coordinator",
         description="Coordinates Shipwright's specialist agents.",
         instruction=coordinator_instruction,

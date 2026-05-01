@@ -10,6 +10,16 @@ Shipwright is a Google ADK multi-agent system that coordinates engineering flow 
 - **Vertex AI Search**: planned backing store for Project Memory grounding.
 - **Postgres / Redis**: future durable state and short-lived dedupe/lock storage.
 
+## Reasoning Providers
+
+ADK remains the agent orchestration layer. Domain services use a narrow `ReasoningProvider` abstraction for task-level reasoning such as Project Memory summaries, coordination-signal classification, and evidence explanations.
+
+Current providers:
+
+- **Deterministic**: default for tests and seeded local demos.
+- **Gemini**: managed model provider placeholder for the hackathon runtime.
+- **Local**: future seam for self-served model infrastructure if usage or enterprise constraints justify it.
+
 ## Agents
 
 - **Coordinator Agent**: routes workflows, suppresses duplicate alerts, and triggers visible actions.
