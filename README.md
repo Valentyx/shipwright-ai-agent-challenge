@@ -14,7 +14,7 @@ Shipwright is an independent hackathon project. It is not affiliated with or end
 
 - Track: Google for Startups AI Agents Challenge, Track 1 Build
 - Runtime: ADK + Gemini on Cloud Run
-- Integration boundary: ADK agents call MCP tools for Jira, Slack, and GitHub
+- Integration boundary: ADK agents call MCP tools for Jira/Linear, Slack, and GitHub
 - Grounding: Project Memory is designed to be backed by Vertex AI Search
 - Demo: Brazil Payments Launch dependency gap, Slack intervention, Jira comment, standup digest, backlog grooming brief
 
@@ -60,10 +60,17 @@ The production goal is to use reliable community MCP servers where they satisfy 
 python3 -m shipwright.mcp_server
 ```
 
+To probe live MCP endpoints for the current spike:
+
+```bash
+python3 -m shipwright.mcp_probe
+```
+
 ## Documentation
 
 - [Architecture](docs/ARCHITECTURE.md)
 - [Demo Guide](docs/DEMO.md)
+- [MCP Spike](docs/MCP_SPIKE.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Domain Context](CONTEXT.md)
 - [Architecture Decisions](docs/adr/0001-mcp-integration-boundary.md)
