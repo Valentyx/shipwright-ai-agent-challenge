@@ -67,6 +67,8 @@ python3 -m shipwright.mcp_server
 - [Roadmap](docs/ROADMAP.md)
 - [Domain Context](CONTEXT.md)
 - [Architecture Decisions](docs/adr/0001-mcp-integration-boundary.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security](SECURITY.md)
 
 ## Guardrails
 
