@@ -1,0 +1,16 @@
+[project]
+name = "shipwright-agent"
+version = "0.1.0"
+description = "Shipwright Track 1 ADK multi-agent demo"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+cloud = [
+  "google-adk",
+  "mcp",
+  "google-cloud-logging",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
